@@ -13,7 +13,7 @@ document.querySelector('#Kirjoita').addEventListener('click', e => {
 google.charts.load('current', { 'packages': ['corechart'] });
 // Set a callback to run when the Google Visualization API is loaded.
 google.charts.setOnLoadCallback(drawChart);
-document.querySelector('#Taulukko').innerHTML = '<table><tr><td>Lämpötila</td><td>Ilmankosteus</td></tr><tr><td>22</td><td>41</td></table>';
+//document.querySelector('#Taulukko').innerHTML = '<table><tr><td>Lämpötila</td><td>Ilmankosteus</td></tr><tr><td>22</td><td>41</td></table>';
 /* Callback that creates and populates a data table,
        instantiates the pie chart, passes in the data and
        draws it.*/
@@ -41,14 +41,52 @@ function drawChart() {
   getJSON('https://func-weather.azurewebsites.net/api/HttpTriggerCSharp2?code=03Hf14xSawGyeGtfxZTCLJ5mGLx0GGusap2f3zssPqg6n3KriqizHg==&deviceId=3a002e000447393035313138&amount=10', function (err, data) {
     let dataTable = '<table border=1><tr><td>Pvm</td><td>Temp</td><td>Humid</td></tr>';
 
+    // lämppäkoodi
+    var data_temp = new google.visualization.DataTable();
+     data_temp.addColumn('string', 'Pvm');
+     data_temp.addColumn('number', 'Lämpötila');
+
+     var data_hum = new google.visualization.DataTable();
+     data_hum.addColumn('string', 'Pvm');
+     data_hum.addColumn('number', 'Kosteus%');
+
+
     const dataHistory = data.map(function (measure) {
       dataTable = dataTable + `<tr><td>${measure.Timestamp.split('T')[0]}<b> klo: </b>${(measure.Timestamp).split('T')[1].split('.')[0]} </td><td>${measure.Temp} </td><td> ${measure.Hum} </td></tr>`
+    
+      data_temp.addRows([
+      [(measure.Timestamp).split('T')[1].split('.')[0], parseInt(measure.Temp)]
+      ]);
+
+      data_hum.addRows([
+      [(measure.Timestamp).split('T')[1].split('.')[0], parseInt(measure.Hum)]
+      ]);
+   
     });
 
-    
     dataTable = dataTable + '</table>';
 
     document.querySelector('#Taulukko').innerHTML = dataTable;
+    var options_temp = {
+    'title': 'Lämpötilat',
+    'width': 700,
+    'height': 300
+    };
+
+     var options_hum = {
+    'title': 'Kosteus%',
+    'width': 700,
+    'height': 300
+    };
+
+
+    
+     // Instantiate and draw our chart, passing in some options.
+     var chart = new google.visualization.LineChart(document.getElementById('temp'));
+     chart.draw(data_temp, options_temp);
+
+     var chart2 = new google.visualization.ColumnChart(document.getElementById('humid'));
+     chart2.draw(data_hum, options_hum);
   });
 
 
@@ -75,7 +113,7 @@ function drawChart() {
      chart.draw(data, options);
  */
 
-
+/*
   var data_temp = new google.visualization.DataTable();
   data_temp.addColumn('string', 'Pvm');
   data_temp.addColumn('number', 'Lämpötila');
