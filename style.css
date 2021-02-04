@@ -1,5 +1,38 @@
+body {
+  background-image: url("https://images.wallpapersden.com/image/download/milky-way-galaxy_a2hna26UmZqaraWkpJRobWllrWdpZWU.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-origin: content-box;
+    background-size: cover;
+
+    
+}
+
+h1 {
+  -webkit-text-stroke: 0.5px grey;
+    color: black;
+    text-shadow:
+      1px 1px 0 #000,
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000; 
+}
+.Saa {
+    text-size: 25px;
+  -webkit-text-stroke: 0.2px grey;
+    color:green;
+   /* text-shadow:
+      1px 1px 0 #000,
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000; 
+*/
+
+}
 table, th, td {
-  border:3px solid black;
+  border:3px solid grey;
   border-collapse: collapse;
   text-align: center;
   
